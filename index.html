@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertisseur de devises</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Convertisseur de devises</h1>
+    <label for="amount">Montant:</label>
+    <input type="text" id="amount" name="amount" placeholder="Montant à convertir">
+    <br>
+    <label for="from">De:</label>
+    <select id="from" name="from">
+        <option value="EUR">EUR</option>
+    </select>
+    <br>
+    <label for="to">À:</label>
+    <select id="to" name="to">
+        <option value="USD">USD</option>
+    </select>
+    <br>
+    <button id="convertBtn">Convertir</button>
+    <div id="result"></div>
+
+    <script>
+        $(document).ready(function(){
+            $('#convertBtn').click(function(){
+                var amount = $('#amount').val();
+                var from = $('#from').val();
+                var to = $('#to').val();
+                var apiKey = 'b743548ad8bb223a06352c84fc98dc8e';
+
+                $.ajax({
+                    url: 'https://data.fixer.io/api/convert',
+                    method: 'GET',
+                    data: {
+                        access_key: apiKey,
+                        from: from,
+                        to: to,
+                        amount: amount
+                    },
+                    success: function(response){
+                        var convertedAmount = response.result;
+                        $('#result').text(amount + ' ' + from + ' = ' + convertedAmount + ' ' + to);
+                    },
+                    error: function(){
+                        $('#result').text('Une erreur s\'est produite lors de la conversion.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
